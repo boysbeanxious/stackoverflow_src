@@ -61,6 +61,14 @@ class CodeSectionParser:
         self.code_section_start = "<pre><code>"
         self.code_section_end = "</code></pre>"
 
+        self.html_entities = {
+            "&nbsp": "",
+            "&amp": "&",
+            "&quot": '"',
+            "&lt": "<",
+            "&gt": ">",
+        }
+
     def __call__(self, post_str):
         """
         Args:
@@ -69,9 +77,25 @@ class CodeSectionParser:
         Returns:
             a dict that contains the parsed info
         """
+        
         to_return = {}
-        code_section_dict_list = self.collect_code_sections(post_str=post_str)
+        p_return = self.replace_entities(post_str=post_str)
+        code_section_dict_list = self.collect_code_sections(post_str=p_return)
         to_return["code_sections"] = code_section_dict_list
+        return to_return
+    
+    def replace_entities(self, post_str):
+        """
+
+        Args:
+            post_str: a str
+
+        Returns:
+            a str with all listed entities replaced
+        """
+        to_return = post_str
+        for key, val in self.html_entities.items():
+            to_return = to_return.replace(key, val)
         return to_return
 
     def collect_code_sections(self, post_str):

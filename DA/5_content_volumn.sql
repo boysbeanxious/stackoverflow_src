@@ -616,10 +616,18 @@ from
 		--cast(creationdate as date) between '2021-10-06' and '2021-12-31'
 		-- treat 0_2_condition3.csv
 		--cast(creationdate as date) between '2022-01-01' and '2022-03-15'
+		-- treat_0_3_condition3.csv
+		-- cast(creationdate as date) between '2022-03-16' and '2022-05-31'
+		-- treat_0_4_condition3.csv
+		-- cast(creationdate as date) between '2022-06-01' and '2022-06-28'
 		-- treat_1_1_condition3.csv
 		--cast(creationdate as date) between '2022-10-05' and '2022-12-31'
 		-- treat_1_2_condition3.csv
-		cast(creationdate as date) between '2023-01-01' and '2023-03-14'
+		--cast(creationdate as date) between '2023-01-01' and '2023-03-14'
+		-- treat_1_3_condition3.csv
+		cast(creationdate as date) between '2023-03-15' and '2023-05-31'
+        -- treat_1_4_condition3.csv
+		-- cast(creationdate as date) between '2023-06-01' and '2023-06-27'
 		and posttypeid = '1'
 		--and deletiondate <= '2023-12-03'
    and (tags like '%<python>%'
@@ -677,6 +685,9 @@ group by
 	x.cdate ,
 	x.del_yn
  ;
+
+
+
 
 
 
