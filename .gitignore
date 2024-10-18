@@ -1,3 +1,4 @@
 *config*
 *.pt
 *.csv
+*.pyc

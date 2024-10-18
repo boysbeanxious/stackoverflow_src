@@ -64,7 +64,7 @@ class CodeSectionParser:
         self.html_entities = {
             "&nbsp": "",
             "&amp": "&",
-            "&quot": '"',
+            "&quot;": '"',
             "&lt": "<",
             "&gt": ">",
         }
