@@ -54,6 +54,37 @@ group by x.cdate, x.posttypeid
 ;
 
 
+select /*totdeletedwithin*/
+       x.cdate
+     , x.posttypeid
+     , count(id) as deletedpostcnt
+     , sum(deletedwithintwoyear) as deletedwithintwoyear
+     , sum(deletedwithinayear) as deletedwithinayear
+     , sum(deletedwithinamonth) as deletedwithinamonth
+     , sum(deletedwithinaweek) as deletedwithinaweek
+from (
+  select id
+       , cast(creationdate as date) as cdate
+       , posttypeid
+       , case when datediff(DAY , creationdate, deletiondate) <=530 then 1 else 0 end as deletedwithintwoyear
+       , case when datediff(DAY , creationdate, deletiondate) <=365 then 1 else 0 end as deletedwithinayear
+       , case when datediff(DAY , creationdate, deletiondate) <=30 then 1 else 0 end as deletedwithinamonth
+       , case when datediff(DAY , creationdate, deletiondate) <=7 then 1 else 0 end as deletedwithinaweek
+       , case when (deletiondate <= '2023-12-03' and parentid is not null) then 'Ans'
+              when (deletiondate <= '2023-12-03' and parentid is null) then 'Que'
+              else 'Ali'
+              end as dreason
+   from postswithdeleted
+   where creationdate<= '2023-12-03'
+  and posttypeid in ('1', '2')
+  --and deletiondate is not null 
+) x 
+group by x.cdate, x.posttypeid
+;
+
+
+
+
 
 select
 	/*deletedATags*/
