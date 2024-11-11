@@ -2,3 +2,4 @@
 *.pt
 *.csv
 *.pyc
+*venv_stackoverflow_src*
