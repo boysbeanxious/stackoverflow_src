@@ -50,7 +50,6 @@ class HTMLParser:
         to_return = self.remove_tags(post_str)
         to_return = self.replace_entities(to_return)
         return to_return
-
 class CodeSectionParser:
     def __init__(self):
         self.code_tag_start = "<code>"
