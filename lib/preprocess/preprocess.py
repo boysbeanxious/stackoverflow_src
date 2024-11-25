@@ -110,7 +110,6 @@ class CodeSectionParser:
                 "span_str": a str
             }
         """
-        print("post_str :", post_str )
         start_offsets = {m.start(): css for css in self.code_section_list for m in re.finditer(css, post_str)}
         start_offsets = dict(sorted(start_offsets.items()))
 
