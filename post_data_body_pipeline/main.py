@@ -6,8 +6,10 @@ def main():
      print ("start main!")
      
      # 일자 별로 100개씩 sampling -> db insert
-     st_dt = '2021-11-30'
-     end_dt = '2023-11-30'
+     # st_dt = '2021-11-30'
+     # end_dt = '2023-11-30'
+     st_dt = '2022-11-01'
+     end_dt = '2022-12-31'
      sample_num = 100
      seed = 100
      posttype = '1'

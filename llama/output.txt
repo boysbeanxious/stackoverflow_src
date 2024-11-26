@@ -1,0 +1,234 @@
+----
+Difficulty class : Intermediate
+<post>
+<Title>I have a non normalised.db file and I need to create a dataframe df_exams using Pandas</Title>. <Question>I have  a non normalised.db file and I need to create a dataframe df_exams from the column 'Exams' of the non-normalised db file. Now the column exams of the non-normalised db file looks like this:
+The original non-normalised file has columns of Student ID and Exams like this:
+
+
+
+
+Student ID
+Exams
+
+
+
+
+1
+exam7 (2017), exam9 (2018), exam3 (2018),...
+
+
+2
+exam2(2017), exam2(2017), exam8 (2018),...
+
+
+3
+exam7 (2017), exam9 (2018), exam3 (2018),...
+
+
+
+
+And I need it like
+
+
+
+
+Student ID
+Exam
+Year
+
+
+
+
+1
+exam7
+2017
+
+
+1
+exam9
+2018
+
+
+1
+exam3
+2018
+
+
+
+
+and so on. I am fairly new to python and appreciate the help.
+I had written this code:
+
+
+
+
+This does not produce the desired output.
+</Question>
+</post>
+----
+Difficulty class : Intermediate
+<post>
+<Title>Need to extract values from a dataframe and convert to a string and create a for loop that adds the random x and y to the end of each item</Title>. <Question>I have a excel(csv) file and a text file(txt) and I need to extract x and y from random rows from the column headings X and Y. This I am told needs to be converted to a string so that I can then have the text file containing a list of objects to then generate random objects and a random x and y.
+In other words, something like the following (Final Output):
+Object 1 was sent at coordinates x and y.
+I need to generate a random Object 2, 5, 8, 1, etc along with a random x but the same y for that particular row where the x is in the excel file. This needs to generate 5000 random Objects # and random x but its associated y.
+Note the objects must repeat for I have 149 and the same goes for the x and y although I have 10,000. Just need a random generator
+Goal:
+
+Object 13 was sent at x and y.
+Object 101 was sent at x and y.
+Object 57 was sent at x and y.
+Object 101 was sent at x and y.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+`
+</Question>
+</post>
+----
+Difficulty class : Intermediate
+<post>
+<Title>Update image using flask and Ajax</Title>. <Question>Running a webpage and when I click a button, I want an existing image to be replaced without reloading the page, after a servers function is finished creating the new image server side. I am getting a 400 error though, so something is wrong before I can even print the data in routes.py to see what it's passing, meaning something is wrong with my ajax call to my flask routes.py function.
+The image:
+
+
+
+
+At the end of my html file I have this script as an attempt to replace the existing image:
+
+
+
+
+In my flask routes.py page:
+
+
+
+
+Passing data and everything works when I use my original xhr function, but it isn't auto updating as it's pure JS. I receive the 200 message with this function.
+
+
+
+
+Anyone know the reason for the 400 error on my new Ajax code attempt?
+</Question>
+</post>
+----
+Difficulty class : Intermediate
+<post>
+<Title>Type-hinting based on custom config file structure</Title>. <Question>Is there a method in Python or PyCharm to produce attribute type hints for a class that dynamically loads the attributes from a file?
+Consider the following Settings class:
+
+
+
+
+And a sample config:
+
+
+
+
+Therefore, initializing Settings with the config file (a = Settings('myconfig.cfg')) would produce type hints for the new attributes: a.var_a and a.var_b. Is this possible to achieve in any shape or form, or am I best off just creating a dataclass and modify the parameters on the fly?
+</Question>
+</post>
+----
+Difficulty class : Intermediate
+<post>
+<Title>I have a non normalised.db file and I need to create a dataframe df_exams using Pandas</Title>. <Question>I have  a non normalised.db file and I need to create a dataframe df_exams from the column 'Exams' of the non-normalised db file. Now the column exams of the non-normalised db file looks like this:
+The original non-normalised file has columns of Student ID and Exams like this:
+
+
+
+
+Student ID
+Exams
+
+
+
+
+1
+exam7 (2017), exam9 (2018), exam3 (2018),...
+
+
+2
+exam2(2017), exam2(2017), exam8 (2018),...
+
+
+3
+exam7 (2017), exam9 (2018), exam3 (2018),...
+
+
+
+
+And I need it like
+
+
+
+
+Student ID
+Exam
+Year
+
+
+
+
+1
+exam7
+2017
+
+
+1
+exam9
+2018
+
+
+1
+exam3
+2018
+
+
+
+
+and so on. I am fairly new to python and appreciate the help.
+I had written this code:
+
+
+
+
+This does not produce the desired output.
+</Question>
+</post>
+----
+Difficulty class : Intermediate
+<post>
+<Title>How to join these 2 tables by date with ORM</Title>. <Question>I have two querysets -
+
+
+
+
+First query give me all objects with selected time range with proper data sources and values. Through highest_priority i set which item should be selected. All items have additional data.
+Second query gives me grouped by information about items in every date. In second query i do not have important values like price etc. So i assume i have to join these two tables and filter out where a.highest_priority = b.highest priority. Because in this case i will get queryset with objects and only one item per date.
+I have tried using distinct - not working with .first()/.last(). Annotates gives me dict by grouped by, and grouping by only date cutting a lot of important data, but i have to group by only date...
+Tables looks like that
+A
+
+B
+
+How to join them? Because when i join them i could easily filter highest_prio with highest_prio and get my date with only one database shot. I want to use ORM, because i could just distinct and put it on the list and i do not want to hammer base with connecting multiple queries through date.
+</Question>
+</post>

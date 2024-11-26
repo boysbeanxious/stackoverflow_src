@@ -5,6 +5,7 @@ class CalcDiff:
     def __init__(self):  
             self.llm = OllamaLLM(model="llama-3.1-70b-instruct-lorablated.Q4_K_M:latest") 
             self.parser = StrOutputParser() 
+            self.df = pd.read_csv('../../data/part_one_q_output.csv', index_col = 0)
 
     def get_target_list(self, posttype, st_dt, end_dt):
         print("annotation_update> get_target_list") 
@@ -45,37 +46,33 @@ class CalcDiff:
 
 
     def create_fewshot_promt(self):
-        print("annotation_update> create_fewshot_promt") 
-
-        df = pd.read_csv('../../data/part_one_q_output.csv', index_col = 0)
+        # print("annotation_update> eval_p_diff> create_fewshot_promt") 
 
         diff_list = ['Difficulty class : Basic', 'Difficulty class : Intermediate', 'Difficulty class : Advanced']
 
-        diff_idx = {x : list(df[df['answer']==x].index) for x in diff_list}
+        diff_idx = {x : list(self.df[self.df['answer']==x].index) for x in diff_list}
         diff_s_idx = {}
         for key, value in diff_idx.items():
             dic_col = f'{key}_sample_idx'
             diff_population = value
-            np.random.seed(222)
             diff_s_idx[dic_col] = np.random.choice(diff_population, size=3, replace=False)
 
         fewshot_q_id = list(chain.from_iterable(diff_s_idx.values()))
-        eval_q_id =np.setdiff1d(list(df.index), fewshot_q_id)
         examples = []
         for idx in fewshot_q_id:
         # for idx in [19]:
-            temp_dict = {"question" : str(df.loc[idx, 'question']),
-                        "answer"   : str(df.loc[idx, 'answer'])}
+            temp_dict = {"question" : str(self.df.loc[idx, 'question']),
+                        "answer"   : str(self.df.loc[idx, 'answer'])}
             examples.append(temp_dict)
 
         example_prompt = PromptTemplate.from_template(
-        "**Question**\n{question}\n**Answer**\n{answer}"
+        "Question:\n{question}\nAnswer:\n{answer}"
         )
 
         prompt = FewShotPromptTemplate(
         examples=examples,
         example_prompt=example_prompt,
-        suffix="**Question**\n{question}\n**Answer**",
+        suffix="Question:\n{question}\nAnswer:",
         input_variables=["question"],
         )
         return prompt
@@ -88,7 +85,7 @@ class CalcDiff:
         p_id_df['c_body'] = p_id_df['body'].apply(lambda x : codep(x))
         p_id_df['t_body'] = p_id_df[['c_body', 'body']].apply(lambda row: ts.get_text_section({'body': row['body'], 'code_sections': row['c_body']['code_sections']}), axis=1)
         p_id_df['clean_body'] = p_id_df['t_body'].apply(lambda x : htmlp.get_html_cleaned_str(x))
-        p_id_df['question'] = 'Here is the question about software development. The title of the question is <Title>'+p_id_df['title'].map(str)+'</Title>. and body of the question is <Question>'+p_id_df['clean_body'].map(str)+'</Question>. Please answer briefly about the "difficulty" of the stackoverflow question'
+        p_id_df['question'] = '<Title>'+p_id_df['title'].map(str)+'</Title> <Body>'+p_id_df['clean_body'].map(str)+'</Body>'
 
         return p_id_df
 
@@ -116,25 +113,33 @@ class CalcDiff:
         conn.close()
 
 
-    def eval_p_diff(self, pp_id_df, prompt):
+    def eval_p_diff(self, pp_id_df):
         print("annotation_update> eval_p_diff") 
         dt_list = list(pp_id_df['creationdate'].unique())
-        chain = prompt | self.llm | self.parser
+        dt_list.sort()
 
         for dt in dt_list:
             print("annotation_update> eval_p_diff> dt", dt) 
             eval_result = pd.DataFrame(columns = ['id', 'result'])
 
             p_id_list = pp_id_df.loc[pp_id_df['creationdate'] ==dt, 'id'].values     
-            print("annotation_update> eval_p_diff> dt", pp_id_df.loc[pp_id_df['creationdate'] ==dt, 'id'].values ) 
-            for p_id in tqdm(p_id_list):
-                question = pp_id_df.loc[pp_id_df['id'] == p_id, 'question']    
-                # chain 호출
-                # print(question)
-                response = chain.invoke({"question": question})
-                tmp_dict = {'id' : p_id
-                            ,'result' : response}
-                eval_result = pd.concat([eval_result, pd.DataFrame([tmp_dict])], ignore_index=True)
+            print("annotation_update> eval_p_diff> dt", dt ) 
+
+            for p_id in tqdm(p_id_list[:5]):
+                
+                try : 
+                    prompt = self.create_fewshot_promt()
+                    chain = prompt | self.llm | self.parser
+
+                    question = str(pp_id_df.loc[pp_id_df['id'] == p_id, 'question'].values)
+                    # chain 호출
+                    print(question)
+                    response = chain.invoke({"question": question})
+                    tmp_dict = {'id' : p_id
+                                ,'result' : response}
+                    eval_result = pd.concat([eval_result, pd.DataFrame([tmp_dict])], ignore_index=True)
+                except KeyError as e:
+                    print(f"key err: {e}")
             # self.update_result(eval_result)
             eval_result.to_csv(f'{dt}.csv')
 
@@ -146,13 +151,13 @@ class CalcDiff:
         p_id_df = self.get_target_list(posttype, st_dt, end_dt)
         dt_list = list(p_id_df['creationdate'].unique())
 
-        print("annotation_update > create fewshot prompt")
-        prompt = self.create_fewshot_promt()
+        # print("annotation_update > create fewshot prompt")
+        # prompt = self.create_fewshot_promt()
 
         print("annotation_update > preprocessing data")
         pp_id_df = self.pp_data(p_id_df)
 
         print("annotation_update > eval_p_diff")
-        self.eval_p_diff(pp_id_df, prompt)
+        self.eval_p_diff(pp_id_df)
 
 
