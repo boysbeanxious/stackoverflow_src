@@ -130,11 +130,12 @@ class CalcDiff:
             for p_id in tqdm(p_id_list):
                 question = pp_id_df.loc[pp_id_df['id'] == p_id, 'question']    
                 # chain 호출
+                # print(question)
                 response = chain.invoke({"question": question})
                 tmp_dict = {'id' : p_id
                             ,'result' : response}
                 eval_result = pd.concat([eval_result, pd.DataFrame([tmp_dict])], ignore_index=True)
-            self.update_result(eval_result)
+            # self.update_result(eval_result)
             eval_result.to_csv(f'{dt}.csv')
 
 
