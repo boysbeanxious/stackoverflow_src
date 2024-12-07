@@ -61,10 +61,3 @@ from lib.annotation.param import *
 
 import lib.preprocess.preprocess as pp
 import lib.preprocess.SectionExtractor as se
-
-
-import lib.annotation.D_Annotation as da
-import lib.annotation.Self_Consistency as sc
-import lib.annotation.Sample_Insert as si
-import lib.annotation.Q_Extract as qe
-import lib.annotation.SampleSelf_Consistency as ssc

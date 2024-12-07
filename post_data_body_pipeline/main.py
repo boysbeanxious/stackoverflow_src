@@ -18,10 +18,10 @@ def main():
      sample_insert(st_dt, end_dt, sample_num, seed, posttype)
      print ("end sample_insert!")
 
-     print ("start annotation_update!")
-     cal = cd.CalcDiff()
-     cal.annotation_update(st_dt, end_dt, sample_num, seed, posttype)
-     print ("end annotation_update!")
+     # print ("start annotation_update!")
+     # cal = cd.CalcDiff()
+     # cal.annotation_update(st_dt, end_dt, sample_num, seed, posttype)
+     # print ("end annotation_update!")
 
     
 

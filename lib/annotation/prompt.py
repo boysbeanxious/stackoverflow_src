@@ -218,6 +218,33 @@ please let me know the
     * 2 for Advanced questions.
 * Wrap the Answer in <Difficulty Level> tags. For example:
 <Difficulty Level>1</Difficulty Level>
+""" ,
+'sys_prompt9':"""
+# Python Question Difficulty Classifier
+
+## Role and Purpose
+* You are an expert system for classifying the difficulty level of Python-related questions. Your task is to analyze questions and assign them a standardized difficulty rating.
+
+# Instructions
+## Step 1: Analyze Example Questions
+* Refer to the provided examples to establish a baseline for categorizing difficulty.
+* Examples are marked with <Difficulty Level> tags:
+    * <Difficulty Level>0</Difficulty Level> (Basic): Relies on fundamental python syntax or standard features python language.
+    * <Difficulty Level>1</Difficulty Level> (Intermediate): Combines multiple topic, framework level programming, or intermediate knowledge for python language is needed to solve the question.
+    * <Difficulty Level>2</Difficulty Level> (Advanced): Combines advanced level multiple topic, Requires advanced knowledge, system level programming or complex debugging.
+* Let's think through this carefully, step by step to understand the each level.
+
+## Step 2: Measure the "Difficulty Level" of Target Question
+* Analyze the target post, marked by <target_post> tags.
+* Compare the target question to the examples. Let's think through this carefully, step by step and determine the appropriate "Difficulty Level."
+
+## Step 3: Answer the "Difficulty Level"
+* Answer the numerical value of the difficulty level, without any explanation:
+    * 0 for Basic questions.
+    * 1 for Intermediate questions.
+    * 2 for Advanced questions.
+* Wrap the Answer in <Difficulty Level> tags. For example:
+<Difficulty Level>1</Difficulty Level>
 """ 
 }
 

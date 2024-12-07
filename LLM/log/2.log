@@ -1,0 +1,76 @@
+param1: 2
+start main!
+Q_Extract start_2021-11-30
+Q_Extract end_2021-11-30
+SampleSelf_Consistency start_2021-11-30
+SampleSelf_Consistency end_2021-11-30
+write_promt start_2021-11-30
+../../data/q_output_code_y.csv
+write_promt end_2021-11-30
+calc_acc_for_l start_2021-11-30
+./result/2/2021-11-30 00:00:00.csv
+insert_db : else - 
+calc_acc_for_l end_2021-11-30
+Q_Extract start_2021-11-30
+Q_Extract end_2021-11-30
+SampleSelf_Consistency start_2021-11-30
+SampleSelf_Consistency end_2021-11-30
+write_promt start_2021-11-30
+../../data/q_output_code_y.csv
+write_promt end_2021-11-30
+calc_acc_for_l start_2021-11-30
+./result/2/2021-12-01 00:00:00.csv
+insert_db : else - 
+calc_acc_for_l end_2021-11-30
+Q_Extract start_2021-11-30
+Q_Extract end_2021-11-30
+SampleSelf_Consistency start_2021-11-30
+SampleSelf_Consistency end_2021-11-30
+write_promt start_2021-11-30
+../../data/q_output_code_y.csv
+write_promt end_2021-11-30
+calc_acc_for_l start_2021-11-30
+./result/2/2021-12-02 00:00:00.csv
+insert_db : else - 
+calc_acc_for_l end_2021-11-30
+Q_Extract start_2021-11-30
+Q_Extract end_2021-11-30
+SampleSelf_Consistency start_2021-11-30
+SampleSelf_Consistency end_2021-11-30
+write_promt start_2021-11-30
+../../data/q_output_code_y.csv
+write_promt end_2021-11-30
+calc_acc_for_l start_2021-11-30
+./result/2/2021-12-03 00:00:00.csv
+insert_db : else - 
+calc_acc_for_l end_2021-11-30
+Q_Extract start_2021-11-30
+Q_Extract end_2021-11-30
+SampleSelf_Consistency start_2021-11-30
+SampleSelf_Consistency end_2021-11-30
+write_promt start_2021-11-30
+../../data/q_output_code_y.csv
+write_promt end_2021-11-30
+calc_acc_for_l start_2021-11-30
+./result/2/2021-12-04 00:00:00.csv
+insert_db : else - 
+calc_acc_for_l end_2021-11-30
+Q_Extract start_2021-11-30
+Q_Extract end_2021-11-30
+SampleSelf_Consistency start_2021-11-30
+SampleSelf_Consistency end_2021-11-30
+write_promt start_2021-11-30
+../../data/q_output_code_y.csv
+write_promt end_2021-11-30
+calc_acc_for_l start_2021-11-30
+./result/2/2021-12-05 00:00:00.csv
+insert_db : else - 
+calc_acc_for_l end_2021-11-30
+Q_Extract start_2021-11-30
+Q_Extract end_2021-11-30
+SampleSelf_Consistency start_2021-11-30
+SampleSelf_Consistency end_2021-11-30
+write_promt start_2021-11-30
+../../data/q_output_code_y.csv
+write_promt end_2021-11-30
+calc_acc_for_l start_2021-11-30
