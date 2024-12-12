@@ -14,39 +14,39 @@ class Sample_Insert:
         # print ("end sample_insert!")
 
 
-    def get_target_list(self, ver, date):
-        print("sample_insert> get_target_list") 
-        if self.posttype == "1" : 
-            print("sample_insert> get_id_list> posttype==1") 
-            self.posttype = "'1'"
-            q_sql = """select   a.ver, 
-                                a.creationdate, 
-                                a.id
-                        from tt_posts_difficulty a 
-                            , posts b 
-                        where a.id = b.id 
-                        and b.creationdate between '{0}' and '{1}'
-                        and a.ver  = {2} 
-                        and a.creationdate = '{3}'
-                        ;
-                """ 
-            print(q_sql.format(self.st_dt, self.end_dt, ver, date))
-            conn = psycopg2.connect(host = conf.database_user['host'], dbname=conf.database_user['dbname'], user=conf.database_user['user'], password=conf.database_user['password'])
-            try:
-                cur = conn.cursor()
-                cur.execute(q_sql.format(self.st_dt, self.end_dt, ver, date))
-                rows = cur.fetchall()
-            except psycopg2.DatabaseError as db_err:
-                print(db_err)
-            finally : 
-                cur.close()
+    # def get_target_list(self, ver, date):
+    #     print("sample_insert> get_target_list") 
+    #     if self.posttype == "1" : 
+    #         print("sample_insert> get_id_list> posttype==1") 
+    #         self.posttype = "'1'"
+    #         q_sql = """select   a.ver, 
+    #                             a.creationdate, 
+    #                             a.id
+    #                     from tt_posts_difficulty a 
+    #                         , posts b 
+    #                     where a.id = b.id 
+    #                     and b.creationdate between '{0}' and '{1}'
+    #                     and a.ver  = {2} 
+    #                     and a.creationdate = '{3}'
+    #                     ;
+    #             """ 
+    #         print(q_sql.format(self.st_dt, self.end_dt, ver, date))
+    #         conn = psycopg2.connect(host = conf.database_user['host'], dbname=conf.database_user['dbname'], user=conf.database_user['user'], password=conf.database_user['password'])
+    #         try:
+    #             cur = conn.cursor()
+    #             cur.execute(q_sql.format(self.st_dt, self.end_dt, ver, date))
+    #             rows = cur.fetchall()
+    #         except psycopg2.DatabaseError as db_err:
+    #             print(db_err)
+    #         finally : 
+    #             cur.close()
 
-            q_output = pd.DataFrame(rows, columns = ['ver','date', 'id'])
-            return q_output
+    #         q_output = pd.DataFrame(rows, columns = ['ver','date', 'id'])
+    #         return q_output
 
-        else : 
-            print("sample_insert> get_id_list> posttype==2") 
-            posttype = "'2'"
+    #     else : 
+    #         print("sample_insert> get_id_list> posttype==2") 
+    #         posttype = "'2'"
 
     
     def get_id_list(self, posttype, st_dt, end_dt):
@@ -61,7 +61,7 @@ class Sample_Insert:
                 and a.posttypeid = {0}  
                 and a.creationdate between '{1}' and '{2}'
                 and not exists (select 1 
-                                    from tt_posts_difficulty x 
+                                    from tt_posts_difficulty_annotated x 
                                 where a.id = x.id)
                 """ 
             conn = psycopg2.connect(host = conf.database_user['host'], dbname=conf.database_user['dbname'], user=conf.database_user['user'], password=conf.database_user['password'])
@@ -149,10 +149,10 @@ class Sample_Insert:
                 dt_p_id_list = p_id_df.loc[p_id_df['creationdate'] == dt, 'id'].values
                 print("sample_insert > create connection> dt_p_id_list>", dt, len(dt_p_id_list))
 
-                first_ann_q_id = [[int(var[0]),dt , int(x), -1 ] for x in np.random.choice(dt_p_id_list, size=self.sample_num, replace=False)]
+                first_ann_q_id = [[int(var[0]),dt , int(x)] for x in np.random.choice(dt_p_id_list, size=self.sample_num, replace=False)]
                 print("sample_insert > create connection> first_ann_q_id>", dt, first_ann_q_id)
 
-                sql = 'INSERT INTO public.tt_posts_difficulty  VALUES %s'
+                sql = 'INSERT INTO public.tt_posts_difficulty_target  VALUES %s'
 
 
                 psycopg2.extras.execute_values(cursor, sql, first_ann_q_id, template=None, page_size=100)
