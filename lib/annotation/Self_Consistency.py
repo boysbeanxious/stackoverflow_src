@@ -31,9 +31,7 @@ class Self_Consistency:
         file_path = '../../data/q_output'
         if q_src_yn == "Y":
             file_path = f'{file_path}_code_y'
-        print(self.excel_ver)
-        print(excel[self.excel_ver])
-        file_path = f'{file_path}{excel[self.excel_ver]}'
+        file_path = f'{file_path}'
         print(f'{file_path}.csv')
         
         self.df = pd.read_csv(f'{file_path}.csv', index_col = 0)

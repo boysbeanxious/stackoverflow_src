@@ -56,12 +56,11 @@ import pickle
 import json
 
 from lib.annotation.prompt import *
-from lib.annotation.excel import *
 from lib.annotation.param import *
 
 import lib.preprocess.preprocess as pp
 import lib.preprocess.SectionExtractor as se
-
+from lib.annotation.excel import *
 
 import lib.annotation.D_Annotation as da
 import lib.annotation.Self_Consistency as sc
