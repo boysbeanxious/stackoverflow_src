@@ -1,13 +1,14 @@
 from lib.annotation.import_files import *
 
 class Sample_Insert: 
-    def __init__(self, st_dt, end_dt, sample_num, seed, posttype):
+    def __init__(self, st_dt, end_dt, sample_num, seed, posttype, num_of_date):
 
-        self.st_dt      = st_dt     
-        self.end_dt     = end_dt    
-        self.sample_num = sample_num
-        self.seed       = seed      
-        self.posttype   = posttype  
+        self.st_dt          = st_dt     
+        self.end_dt         = end_dt    
+        self.sample_num     = sample_num
+        self.seed           = seed      
+        self.posttype       = posttype  
+        self.seq_nm         = sequence[num_of_date]
 
         # print ("start sample_insert!")
         # self.insert_sample(st_dt, end_dt, sample_num, seed, posttype)
@@ -140,8 +141,8 @@ class Sample_Insert:
         conn = engine.raw_connection()
         cursor = conn.cursor()
         try:
-            c_sql = """select nextval('seq_sample_ver');""" 
-            cursor.execute(c_sql.format())
+            c_sql = """select nextval('{0}');""" 
+            cursor.execute(c_sql.format(self.seq_nm))
             var = cursor.fetchall()[0]
             print(type(var))
 

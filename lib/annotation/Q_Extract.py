@@ -15,8 +15,9 @@ class Q_Extract:
                             from tt_posts_difficulty_target a 
                             where not exists (select 1 
                                                 from tt_posts_difficulty_done x 
-                                            where a.id = x.id)
-                              and ver = {0}
+                                            where a.id = x.id
+                                              and (ver/10000) = {0}/10000)
+                              and (ver/10000) = {0}/10000
                 ;  
         """
 

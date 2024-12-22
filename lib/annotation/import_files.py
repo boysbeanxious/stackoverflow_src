@@ -57,6 +57,7 @@ import json
 
 from lib.annotation.prompt import *
 from lib.annotation.param import *
+from lib.annotation.sequence import *
 
 import lib.preprocess.preprocess as pp
 import lib.preprocess.SectionExtractor as se
