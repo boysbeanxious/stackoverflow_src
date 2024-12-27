@@ -11,13 +11,20 @@ class Q_Extract:
 
     def chk_left(self):
         q_sql = """
-                    select count(*) as cnt, min(to_char(a.creationdate, 'yyyy-mm-dd')) as date
-                            from tt_posts_difficulty_target a 
-                            where not exists (select 1 
-                                                from tt_posts_difficulty_done x 
+                    select count(*) as cnt, min(to_char(aa.creationdate, 'yyyy-mm-dd')) as date
+                    from tt_posts_difficulty_target aa
+                        , (select ver, to_char(creationdate, 'yyyy-mm-dd') as std_date
+                            from tt_posts_difficulty_target a
+                            where not exists (select 1
+                                                from tt_posts_difficulty_done x
                                             where a.id = x.id
-                                              and (ver/10000) = {0}/10000)
+                                              and a.ver = x.ver)
                               and (ver/10000) = {0}/10000
+                            order by a.ver, a.creationdate
+                            limit 1
+                    ) bb
+                    where aa.ver = bb.ver
+                    and to_char(aa.creationdate, 'yyyy-mm-dd') = bb.std_date
                 ;  
         """
 
@@ -25,6 +32,7 @@ class Q_Extract:
         try:
             cur = conn.cursor()
             cur.execute(q_sql.format(self.ver))
+            print(q_sql.format(self.ver))
             rows = cur.fetchall()
             
 
@@ -54,8 +62,9 @@ class Q_Extract:
                             from tt_posts_difficulty_target a 
                             where not exists (select 1 
                                                 from tt_posts_difficulty_done x 
-                                            where a.id = x.id)
-                              and ver = {0}
+                                            where a.id = x.id
+                                              and a.ver = x.ver)
+                              and (ver/10000) = {0}/10000
                             order by a.ver, a.creationdate
                             limit 1
                     ) bb ,

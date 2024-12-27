@@ -14,7 +14,9 @@ def main(ver):
     t_extract = qe.Q_Extract(ver)
 
     while True :
+        print("t_extract start")
         cnt = t_extract.chk_left()
+        print(f"t_extract end_{cnt}")
         if cnt[0][0] > 0 : 
             print(f"Q_Extract start_{cnt[0][1]}")
             df = t_extract.db_extract()
