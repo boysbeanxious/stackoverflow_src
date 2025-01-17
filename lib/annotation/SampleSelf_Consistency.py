@@ -34,7 +34,7 @@ class SampleSelf_Consistency:
     def random_selection(self):
         few_shot_n, q_src_yn = param['few_shot_n'], param['q_src_yn']
 
-        file_path = '../../data/q_output'
+        file_path = f'{conf.DATA_PATH}/data/q_output'
         if q_src_yn == "Y":
             file_path = f'{file_path}_code_y'
         file_path = f'{file_path}{excel[self.excel_ver]}'
