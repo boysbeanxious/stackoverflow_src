@@ -9,46 +9,6 @@ class Sample_Insert:
         self.seed           = seed      
         self.posttype       = posttype  
         self.seq_nm         = sequence[num_of_date]
-
-        # print ("start sample_insert!")
-        # self.insert_sample(st_dt, end_dt, sample_num, seed, posttype)
-        # print ("end sample_insert!")
-
-
-    # def get_target_list(self, ver, date):
-    #     print("sample_insert> get_target_list") 
-    #     if self.posttype == "1" : 
-    #         print("sample_insert> get_id_list> posttype==1") 
-    #         self.posttype = "'1'"
-    #         q_sql = """select   a.ver, 
-    #                             a.creationdate, 
-    #                             a.id
-    #                     from tt_posts_difficulty a 
-    #                         , posts b 
-    #                     where a.id = b.id 
-    #                     and b.creationdate between '{0}' and '{1}'
-    #                     and a.ver  = {2} 
-    #                     and a.creationdate = '{3}'
-    #                     ;
-    #             """ 
-    #         print(q_sql.format(self.st_dt, self.end_dt, ver, date))
-    #         conn = psycopg2.connect(host = conf.database_user['host'], dbname=conf.database_user['dbname'], user=conf.database_user['user'], password=conf.database_user['password'])
-    #         try:
-    #             cur = conn.cursor()
-    #             cur.execute(q_sql.format(self.st_dt, self.end_dt, ver, date))
-    #             rows = cur.fetchall()
-    #         except psycopg2.DatabaseError as db_err:
-    #             print(db_err)
-    #         finally : 
-    #             cur.close()
-
-    #         q_output = pd.DataFrame(rows, columns = ['ver','date', 'id'])
-    #         return q_output
-
-    #     else : 
-    #         print("sample_insert> get_id_list> posttype==2") 
-    #         posttype = "'2'"
-
     
     def get_id_list(self, posttype, st_dt, end_dt):
         print("sample_insert> get_id_list") 
