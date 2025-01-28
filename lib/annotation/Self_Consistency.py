@@ -1,7 +1,7 @@
 from lib.annotation.import_files import *
 # https://github.com/meta-llama/llama-recipes/blob/main/recipes/quickstart/Prompt_Engineering_with_Llama_3.ipynb
 class Self_Consistency:
-    def __init__(self, llm_model, few_shot_n, test_n, q_src_yn, ver, p_ver, sf_num, temperature):  
+    def __init__(self, llm_model, few_shot_n, test_n, q_src_yn, ver, p_ver, sf_num, temperature, excel_ver, i):  
         self.ollama         = 'llama-3.1-70b-instruct-lorablated.Q4_K_M:latest'
         self.chatgpt        = OpenAI(api_key= conf.OEPN_AI_KEY)
 
@@ -20,15 +20,22 @@ class Self_Consistency:
         self.version        = str(ver)
         self.sf_num         = sf_num
         self.temperature    = temperature
+        self.excel_ver      = excel_ver
+        self.loop_i         = i
         
+        print(f'./result/sc_{llm_model}_result_{few_shot_n}_{self.test_n}_{q_src_yn}_{self.version}_{self.p_ver}_{self.sf_num}_{self.temperature}_{self.excel_ver}_{self.loop_i}.csv')
         self.write_promt(few_shot_n, q_src_yn, test_n)
         self.calc_acc(llm_model, few_shot_n, q_src_yn)
 
     def random_selection(self, few_shot_n, q_src_yn, test_n):
+        file_path = '../../data/q_output'
         if q_src_yn == "Y":
-            self.df = pd.read_csv('../../data/q_output_code_y_241201.csv', index_col = 0)
-        else :
-            self.df = pd.read_csv('../../data/q_output_241201.csv', index_col = 0)
+            file_path = f'{file_path}_code_y'
+        file_path = f'{file_path}'
+        print(f'{file_path}.csv')
+        
+        self.df = pd.read_csv(f'{file_path}.csv', index_col = 0)
+            
 
         diff_dict = {'Difficulty Level : Basic':        '<Difficulty Level>0</Difficulty Level>' ,
                     'Difficulty Level : Intermediate':  '<Difficulty Level>1</Difficulty Level>', 
@@ -48,7 +55,7 @@ class Self_Consistency:
                 tmp = []
                 for key, value in diff_idx.items():
                     diff_population = value
-                    tmp.append(np.random.choice(diff_population, size=few_shot_n, replace=False))
+                    tmp.append(np.random.choice(diff_population, size=few_shot_n, replace=True))
                 sc_q_list.append(np.concatenate(tmp))
             diff_s_idx[self.eval_q_id[l]] = sc_q_list
         return diff_s_idx
@@ -111,7 +118,8 @@ class Self_Consistency:
             self.result.append(tmp)
         result_df = pd.DataFrame(self.result, columns = ['id', 'message', 'result'])
         result_df = pd.merge(self.df, result_df, on = 'id')
-        result_df.to_csv(f'./result_241201/sc_{llm_model}_result_{few_shot_n}_{self.test_n}_{q_src_yn}_{self.version}_{self.p_ver}_{self.temperature}.csv')
+        
+        result_df.to_csv(f'./result/sc_{llm_model}_result_{few_shot_n}_{self.test_n}_{q_src_yn}_{self.version}_{self.p_ver}_{self.sf_num}_{self.temperature}_{self.excel_ver}_{self.loop_i}.csv')
 
     def calc_acc_for_c(self, llm_model, few_shot_n, q_src_yn):
         for idx, message in tqdm(enumerate(self.message_list)):
@@ -128,7 +136,7 @@ class Self_Consistency:
             self.result.append(tmp)
         result_df = pd.DataFrame(self.result, columns = ['id', 'message', 'result'])
         result_df = pd.merge(self.df, result_df, on = 'id')
-        result_df.to_csv(f'./result_241201/sc_{llm_model}_result_{few_shot_n}_{self.test_n}_{q_src_yn}_{self.version}_{self.p_ver}_{self.temperature}.csv')
+        result_df.to_csv(f'./result/sc_{llm_model}_result_{few_shot_n}_{self.test_n}_{q_src_yn}_{self.version}_{self.p_ver}_{self.sf_num}_{self.temperature}_{self.excel_ver}_{self.loop_i}.csv')
 
 
     def calc_acc(self, llm_model, few_shot_n, q_src_yn) :
