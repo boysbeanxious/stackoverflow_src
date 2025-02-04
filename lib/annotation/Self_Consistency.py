@@ -28,10 +28,10 @@ class Self_Consistency:
         self.calc_acc(llm_model, few_shot_n, q_src_yn)
 
     def random_selection(self, few_shot_n, q_src_yn, test_n):
-        file_path = '../../data/q_output'
+        file_path = f'{conf.DATA_PATH}/data/q_output'
         if q_src_yn == "Y":
             file_path = f'{file_path}_code_y'
-        file_path = f'{file_path}'
+        file_path = f'{file_path}{excel[self.excel_ver]}'
         print(f'{file_path}.csv')
         
         self.df = pd.read_csv(f'{file_path}.csv', index_col = 0)
