@@ -11,7 +11,7 @@ class Stats:
         self.x                  = x
         self.y                  = y
         self.dof                = dof
-        self.split_idx          = np.argmax(np.where(x <= 0))
+        self.split_idx          = np.argmax(np.where(x < 0))+1
         self.c                  = c
 
         self.y_predict          = 0
@@ -81,9 +81,9 @@ class Stats:
         mean_x = np.mean(x)
         dof = n - 2  # 자유도: 데이터 포인트 개수 - 2
         t_value = t.ppf((1 + confidence) / 2., dof)  # 자유도를 명시적으로 추가
-        s_err = np.sum((y - y_predict)**2) / dof
+        s_err = np.sqrt(np.sum((y - y_predict) ** 2) / dof)
         conf_interval = t_value * np.sqrt(
-            s_err * (1/n + (x - mean_x)**2 / np.sum((x - mean_x)**2))
+            s_err**2 * (1/n + (x - mean_x)**2 / np.sum((x - mean_x)**2))
         )
 
         return conf_interval

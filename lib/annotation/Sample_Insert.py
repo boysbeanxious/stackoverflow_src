@@ -25,6 +25,7 @@ class Sample_Insert:
                                     from tt_posts_difficulty_annotated x 
                                 where a.id = x.id)
                 """ 
+            # tt_posts_difficulty_annotated : human annoated questions
             conn = psycopg2.connect(host = conf.database_user['host'], dbname=conf.database_user['dbname'], user=conf.database_user['user'], password=conf.database_user['password'])
             try:
                 cur = conn.cursor()

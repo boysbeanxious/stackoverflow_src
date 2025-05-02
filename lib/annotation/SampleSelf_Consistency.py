@@ -28,6 +28,8 @@ class SampleSelf_Consistency:
         self.ver            = int(annoate_target.iloc[0,0])
 
         self.save_dir       = f'./result/{self.ver}'
+
+        print(f'param for sampel self consistency : {self.llm_model} | {self.few_shot_n} | {self.q_src_yn} | {self.sys_prompt} | {self.sf_num} | {self.temperature} | {self.excel_ver}' )
         if not os.path.exists(self.save_dir):
             os.makedirs(self.save_dir)  # 중첩된 폴더도 생성 가능
 
