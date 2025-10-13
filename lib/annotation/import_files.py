@@ -54,6 +54,7 @@ from itertools import chain
 import pickle
 import json
 
+from lib.annotation.VLLM import *
 from lib.annotation.prompt import *
 from lib.annotation.param import *
 from lib.annotation.sequence import *
@@ -67,3 +68,6 @@ import lib.annotation.Self_Consistency as sc
 import lib.annotation.Sample_Insert as si
 import lib.annotation.Q_Extract as qe
 import lib.annotation.SampleSelf_Consistency as ssc
+
+
+

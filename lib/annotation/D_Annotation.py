@@ -5,6 +5,7 @@ class D_Annotation:
     def __init__(self, llm_model, few_shot_n, test_n, q_src_yn, ver, p_ver):  
             self.ollama         = 'llama-3.1-70b-instruct-lorablated.Q4_K_M:latest'
             self.chatgpt        = OpenAI(api_key= conf.OEPN_AI_KEY)
+            self.vllm           = '/usr/share/d_ollama/.ollama/models/hf_model/Llama-3.2-1B-Instruct'
 
             self.df             = pd.DataFrame()
             self.fewshot_q_id   = []
@@ -19,6 +20,7 @@ class D_Annotation:
             self.sys_prompt     = prompt[p_ver] 
             self.p_ver          = p_ver
             self.version        = str(ver)
+            print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>__init__")
             
             for n in range(test_n) :
                 self.write_promt(few_shot_n, q_src_yn, n )
@@ -77,6 +79,22 @@ class D_Annotation:
         message.append({"role": "user", "content": target_post})
 
         self.message_list.append(message)
+
+
+    def calc_acc_for_v(self, llm_model, few_shot_n, q_src_yn):
+        vllm = a_vllm()
+        for idx, message in tqdm(enumerate(self.message_list)):
+            tmp = []
+            response = vllm.llm.chat(message, sampling_params=vllm.params) 
+
+            tmp.append(self.df.loc[self.eval_q_list[idx], 'id'])
+            print(response)
+            tmp.append(response['message']['content'])
+            self.result.append(tmp)
+        result_df = pd.DataFrame(self.result, columns = ['id', 'result'])
+        result_df = pd.merge(self.df, result_df, on = 'id')
+        result_df.to_csv(f'./result/{llm_model}_result_{few_shot_n}_{self.test_n}_{q_src_yn}_{self.version}_{self.p_ver}.csv')
+
  
     def calc_acc_for_l(self, llm_model, few_shot_n, q_src_yn):
         for idx, message in tqdm(enumerate(self.message_list)):
@@ -112,11 +130,12 @@ class D_Annotation:
         if llm_model == 'l' : # ollama 
             # print(self.eval_prompt)
             self.calc_acc_for_l(llm_model, few_shot_n, q_src_yn)
-            
-
         elif llm_model == 'c' : # chatgpt 
             # print(self.eval_prompt)
             self.calc_acc_for_c(llm_model, few_shot_n, q_src_yn)
+        elif llm_model == 'v' : # chatgpt 
+            print("VLLM")
+            self.calc_acc_for_v(llm_model, few_shot_n, q_src_yn)
 
 
 

@@ -1,4 +1,5 @@
 from lib.annotation.import_files import *
+from lib.annotation.VLLM import VLLM
 # https://github.com/meta-llama/llama-recipes/blob/main/recipes/quickstart/Prompt_Engineering_with_Llama_3.ipynb
 class Self_Consistency:
     def __init__(self, llm_model, few_shot_n, test_n, q_src_yn, ver, p_ver, sf_num, temperature, excel_ver, i):  
@@ -105,6 +106,19 @@ class Self_Consistency:
             # with open("list.json", "w") as file:
             #     json.dump(self.message_list, file)
 
+    def calc_acc_for_v(self, llm_model, few_shot_n, q_src_yn):
+        vllm = VLLM()
+        for idx, message in tqdm(enumerate(self.message_list)):
+            tmp = []
+            response = vllm.llm.chat(message, sampling_params=vllm.params) 
+
+            tmp.append(self.df.loc[self.eval_q_list[idx], 'id'])
+            tmp.append(response[0].outputs[0].text)
+            self.result.append(tmp)
+        result_df = pd.DataFrame(self.result, columns = ['id', 'result'])
+        result_df = pd.merge(self.df, result_df, on = 'id')
+        result_df.to_csv(f'./result/sc_/result/sc_{llm_model}_result_{few_shot_n}_{self.test_n}_{q_src_yn}_{self.version}_{self.p_ver}_{self.sf_num}_{self.temperature}_{self.excel_ver}_{self.loop_i}.csv')
+
  
     def calc_acc_for_l(self, llm_model, few_shot_n, q_src_yn):           
         for idx, message in tqdm(enumerate(self.message_list)):
@@ -148,3 +162,7 @@ class Self_Consistency:
         elif llm_model == 'c' : # chatgpt 
             # print(self.eval_prompt)
             self.calc_acc_for_c(llm_model, few_shot_n, q_src_yn)
+
+        elif llm_model == 'v' : # vLLM
+            print("VLLM")
+            self.calc_acc_for_v(llm_model, few_shot_n, q_src_yn)
