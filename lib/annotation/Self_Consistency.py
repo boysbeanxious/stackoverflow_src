@@ -117,7 +117,7 @@ class Self_Consistency:
             self.result.append(tmp)
         result_df = pd.DataFrame(self.result, columns = ['id', 'result'])
         result_df = pd.merge(self.df, result_df, on = 'id')
-        result_df.to_csv(f'./result/sc_/result/sc_{llm_model}_result_{few_shot_n}_{self.test_n}_{q_src_yn}_{self.version}_{self.p_ver}_{self.sf_num}_{self.temperature}_{self.excel_ver}_{self.loop_i}.csv')
+        result_df.to_csv(f'./result/sc_{llm_model}_result_{few_shot_n}_{self.test_n}_{q_src_yn}_{self.version}_{self.p_ver}_{self.sf_num}_{self.temperature}_{self.excel_ver}_{self.loop_i}.csv')
 
  
     def calc_acc_for_l(self, llm_model, few_shot_n, q_src_yn):           
